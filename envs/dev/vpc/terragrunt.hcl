@@ -17,6 +17,6 @@ locals {
 
 # Pass data into remote module with inputs
 inputs = {
-    vpc_cidr = local.env_vars.vpc_cidr
-    env      = local.env_vars.env
+  vpc_cidr = local.env_vars.vpc_cidr
+  env      = local.env_vars.env
 }
