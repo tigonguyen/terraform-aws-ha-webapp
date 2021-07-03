@@ -24,9 +24,14 @@ data "vault_generic_secret" "service_principle" {
 
 # Declaration for AWS
 provider "aws" {
-    region     = local.env_vars.region
-    access_key = data.vault_generic_secret.service_principle.data["access_key"]
-    secret_key = data.vault_generic_secret.service_principle.data["secret_key"]
+  region     = "${local.env_vars.region}" # Local variable from environment_vars.yaml 
+  access_key = data.vault_generic_secret.service_principle.data["access_key"]
+  secret_key = data.vault_generic_secret.service_principle.data["secret_key"]
 }
 EOF
+}
+
+# Collect values from env_vars.yaml file and set as local variables
+locals {
+  env_vars = yamldecode(file("env_vars.yaml"))
 }
