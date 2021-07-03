@@ -12,7 +12,7 @@ terraform {
 
 # Collect values from env_vars.yaml file and set as local variables
 locals {
-  env_vars = yamldecode(file("./env_vars.yaml"))
+  env_vars = yamldecode(file(find_in_parent_folders("./env_vars.yaml")))
 }
 
 # Pass data into remote module with inputs

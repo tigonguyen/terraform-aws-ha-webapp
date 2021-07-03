@@ -1,21 +1,32 @@
-############ Terragrunt section #############
-# Get configuration from root directory
-include {
-    path = find_in_parent_folders()
-}
-
-############ Terraform section ##############
-# Use remote module for configuration
+# Generate provider configuration for all child directories
+generate "provider" {
+    path      = "provider.tf"
+    if_exists = "overwrite"
+    contents  = <<EOF
 terraform {
-  source = "../../modules/aws_vpc"
+  required_providers {
+    vault = {
+      source = "hashicorp/vault"
+      version = ">=2.19.0"
+    }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }
 
-# Collect values from env_vars.yaml file and set as local variables
-locals {
-  env_vars = yamldecode(file("./env_vars.yaml"))
+# Get vault secret to access AWS
+provider "vault" {}
+data "vault_generic_secret" "service_principle" {
+  path = "aws/service_test"
 }
 
-# Pass data into remote module with inputs
-inputs = {
-    vpc_cidr = local.env_vars.vpc_cidr
+# Declaration for AWS
+provider "aws" {
+    region     = local.env_vars.region
+    access_key = data.vault_generic_secret.service_principle.data["access_key"]
+    secret_key = data.vault_generic_secret.service_principle.data["secret_key"]
+}
+EOF
 }
