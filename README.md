@@ -1,5 +1,5 @@
 # terraform-basic-web-app
-This repository is reference from [Build a Basic Web Application](https://aws.amazon.com/getting-started/hands-on/build-web-app-s3-lambda-api-gateway-dynamodb/) lab on AWS website.
+This repository is reference from [Highly Available Web Application Workshop](https://ha-webapp.workshop.aws/introduction.html) on AWS website.
 
 ## Todo list
 - [x] Generate providers for all child environment folder with terragrunt.

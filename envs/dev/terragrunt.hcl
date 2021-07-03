@@ -1,7 +1,7 @@
 # Generate provider configuration for all child directories
 generate "provider" {
     path      = "provider.tf"
-    if_exists = "overwrite"
+    if_exists = "overwrite_terragrunt"
     contents  = <<EOF
 terraform {
   required_providers {
@@ -14,6 +14,7 @@ terraform {
       version = "~> 3.0"
     }
   }
+  backend "s3" {}
 }
 
 # Get vault secret to access AWS
@@ -29,6 +30,18 @@ provider "aws" {
   secret_key = data.vault_generic_secret.service_principle.data["secret_key"]
 }
 EOF
+}
+
+# Remote backend settings for all child directories
+remote_state {
+  backend = "s3"
+  config = {
+    bucket         = "tigonguyen-tfstate"
+    key            = "${local.env_vars.env}/${path_relative_to_include()}/terraform.tfstate"
+    region         = "us-east-2"
+    encrypt        = true
+    dynamodb_table = "terraform-state-lock"
+  }
 }
 
 # Collect values from env_vars.yaml file and set as local variables
