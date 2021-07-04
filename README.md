@@ -7,6 +7,7 @@ This repository is reference from [Highly Available Web Application Workshop](ht
 - [x] aws_vpc module
 - [x] aws_subnets module - Create 6 subnets (3 pairs) into 2 Availability Zone
 - [x] aws_internet_gateway module
-- [ ] aws_route_table module
+- [x] aws_route_table module and related route, associations.
+- [ ] aws_nat_gateway module
 ## Architecture
 ![](./architecture.png)
