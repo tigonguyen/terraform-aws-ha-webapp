@@ -9,7 +9,6 @@ resource "aws_rds_cluster" "main" {
   master_username        = "wpadmin"
   master_password        = data.vault_generic_secret.ha_web.data["master_password"]
   availability_zones     = ["${var.region}a", "${var.region}b"]
-  database_name          = "database1"
 
   engine                 = "aurora-mysql"
   engine_version         = "5.7.mysql_aurora.2.03.2"
@@ -23,8 +22,27 @@ resource "aws_rds_cluster" "main" {
   skip_final_snapshot    = true
   apply_immediately      = true
 
+  lifecycle {
+    ignore_changes = [final_snapshot_identifier]
+  }
+
   tags = {
     Name = "WP Aurora Cluster"
+    Env  = var.env
+  }
+}
+
+resource "aws_rds_cluster_instance" "cluster_instances" {
+  count                  = 2
+  identifier             = "db-instance-${var.region}-${count.index}"
+  cluster_identifier     = aws_rds_cluster.main.id
+  instance_class         = "db.r5.large"
+  db_subnet_group_name   = var.db_subnet_group_name
+  engine                 = "aurora-mysql"
+  engine_version         = "5.7.mysql_aurora.2.03.2"
+
+  tags = {
+    Name = "WP Aurora Instance ${count.index}"
     Env  = var.env
   }
 }
