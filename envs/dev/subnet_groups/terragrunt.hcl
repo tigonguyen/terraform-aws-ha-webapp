@@ -7,7 +7,7 @@ include {
 ############ Terraform section ##############
 # Use remote module for configuration
 terraform {
-  source = "../../../modules/aws_rds_cluster"
+  source = "../../../modules/aws_subnet_groups"
 }
 
 # Collect values from env_vars.yaml file and set as local variables
@@ -16,17 +16,13 @@ locals {
 }
 
 # Define dependencies on other modules
-dependency "security_groups" {
-  config_path = "../security_groups"
-}
-dependency "subnet_groups" {
-  config_path = "../subnet_groups"
+dependency "subnets" {
+  config_path = "../subnets"
 }
 
 # Pass data into remote module with inputs
 inputs = {
-  db_subnet_group_name = dependency.subnet_groups.outputs.db_subnet_group_name
-  db_sg_id             = dependency.security_groups.outputs.db_sg_id
-  env                  = local.env_vars.env
-  region               = local.env_vars.region
+  data_a_id = dependency.subnets.outputs.data_a_id
+  data_b_id = dependency.subnets.outputs.data_b_id
+  env       = local.env_vars.env
 }
