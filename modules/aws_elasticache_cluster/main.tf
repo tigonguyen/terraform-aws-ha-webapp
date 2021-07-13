@@ -9,4 +9,9 @@ resource "aws_elasticache_cluster" "main" {
 
   security_group_ids   = [var.cache_sg_id]
   subnet_group_name    = var.cache_subnet_group_name
+
+  tags = {
+    Name = "WP Elasticache Cluster"
+    Env  = var.env
+  }
 }

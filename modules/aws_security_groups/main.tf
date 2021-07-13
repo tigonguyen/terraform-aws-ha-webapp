@@ -23,6 +23,7 @@ resource "aws_security_group" "sg_db" {
 # Create ingress SG rule for sg_db which allow traffic from sg_db_client on port 3306
 resource "aws_security_group_rule" "rule_data_client" {
   security_group_id        = aws_security_group.sg_db.id
+  description              = "Ingress SG rule for sg_db which allow traffic from sg_db_client on port 3306" 
   type                     = "ingress"
   from_port                = 0
   to_port                  = 3306
@@ -56,9 +57,67 @@ resource "aws_security_group" "sg_cache" {
 # Create ingress rule for sg_cache which allow traffic from sg_cache_client on port 11211
 resource "aws_security_group_rule" "rule_cache_client" {
   security_group_id        = aws_security_group.sg_cache.id
+  description              = "Ingress rule for sg_cache which allow traffic from sg_cache_client on port 11211"
   type                     = "ingress"
   from_port                = 0
   to_port                  = 11211
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.sg_cache_client.id
+}
+
+####### FS section #######
+# Create SG for FS client
+resource "aws_security_group" "sg_fs_client" {
+  vpc_id = var.vpc_id
+  name   = "sg_fs_client"
+
+  tags = {
+    Name = "WP FS Client SG"
+    Env  = var.env
+  }
+}
+
+# Create SG for FS
+resource "aws_security_group" "sg_fs" {
+  vpc_id = var.vpc_id
+  name   = "sg_fs"
+
+  tags = {
+    Name = "WP FS SG"
+    Env  = var.env
+  }
+}
+
+# Create ingress rule for sg_fs which allow traffic from sg_fs_client on port 2049
+resource "aws_security_group_rule" "rule_fs_client" {
+  security_group_id        = aws_security_group.sg_fs.id
+  description              = "Ingress rule for sg_fs which allow traffic from sg_fs_client on port 2049" 
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 2049
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.sg_fs_client.id
+}
+
+###### LB section ######
+# Create SG for LB
+resource "aws_security_group" "sg_lb" {
+  vpc_id = var.vpc_id
+  name   = "sg_lb"
+
+  tags = {
+    Name = "WP LB SG"
+    Env  = var.env
+  }
+}
+
+# Add Inbound rule which allow traffic from 0.0.0.0/0 on port 80
+resource "aws_security_group_rule" "rule_lb" {
+  security_group_id = aws_security_group.sg_lb.id
+  description       = "Inbound rule which allow traffic from 0.0.0.0/0 on port 80" 
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
 }

@@ -14,7 +14,9 @@ In this workshop, we will explore how to configure AWS VPC, Amazon Aurora RDS, A
 - [x] aws_security_groups module and related rule.
 - [x] aws_db_subnet_group module.
 - [x] aws_rds_cluster module.
-- [ ] cache security group and subnet group and aws_elasticache_cluster.
+- [x] cache security group and subnet group and aws_elasticache_cluster.
+- [x] security group and aws_efs_file_system.
+- [ ] aws_lb.
 ## Architecture
 These labs are based upon the materials developed as a reference architecture by AWS. The reference architecture is available as a [GitHub repository](https://github.com/aws-samples/aws-refarch-wordpress).
 ![](./aws-refarch-wordpress.jpeg)

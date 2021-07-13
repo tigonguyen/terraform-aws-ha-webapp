@@ -36,7 +36,7 @@ EOF
 remote_state {
   backend = "s3"
   config = {
-    bucket         = "tigonguyen-tfstate"
+    bucket         = "tigonguyen-terraform-state"
     key            = "${local.env_vars.env}/${path_relative_to_include()}/terraform.tfstate"
     region         = "us-east-2"
     encrypt        = true
