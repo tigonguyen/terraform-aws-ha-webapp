@@ -15,7 +15,7 @@ resource "aws_elasticache_subnet_group" "elasticache_subnet_group" {
   subnet_ids = [var.data_a_id, var.data_b_id]
 
   tags = {
-    Name = "RDS Subnet Group"
+    Name = "Elasticache Subnet Group"
     Env  = var.env
   }
 }

@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "terraform_state" {
 
 # For locking requirement
 resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "terraform-state-locks" # Change your DynamoDB table name
+  name         = "terraform-state-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
   attribute {

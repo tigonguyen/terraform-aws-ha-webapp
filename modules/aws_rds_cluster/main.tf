@@ -32,9 +32,8 @@ resource "aws_rds_cluster" "main" {
   }
 }
 
-resource "aws_rds_cluster_instance" "cluster_instances" {
-  count                  = 2
-  identifier             = "db-instance-${var.region}-${count.index}"
+resource "aws_rds_cluster_instance" "cluster_instance_0" {
+  identifier             = "db-instance-${var.region}-0"
   cluster_identifier     = aws_rds_cluster.main.id
   instance_class         = "db.r5.large"
   db_subnet_group_name   = var.db_subnet_group_name
@@ -42,7 +41,21 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   engine_version         = "5.7.mysql_aurora.2.03.2"
 
   tags = {
-    Name = "WP Aurora Instance ${count.index}"
+    Name = "WP Aurora Instance 0"
+    Env  = var.env
+  }
+}
+
+resource "aws_rds_cluster_instance" "cluster_instance_1" {
+  identifier             = "db-instance-${var.region}-1"
+  cluster_identifier     = aws_rds_cluster.main.id
+  instance_class         = "db.r5.large"
+  db_subnet_group_name   = var.db_subnet_group_name
+  engine                 = "aurora-mysql"
+  engine_version         = "5.7.mysql_aurora.2.03.2"
+
+  tags = {
+    Name = "WP Aurora Instance 1"
     Env  = var.env
   }
 }

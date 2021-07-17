@@ -1,15 +1,3 @@
-# Create target group which lb will route traffic to
-resource "aws_lb_target_group" "instance_lbtg" {
-  name             = "instance-lbtg"
-  port             = 80
-  protocol         = "HTTP"
-  protocol_version = "HTTP1"
-  vpc_id           = var.vpc_id
-}
-
-# Link the target group with instances
-
-
 # Define a load balancer on AWS
 resource "aws_lb" "alb_wp" {
   name               = "alb-wp"
@@ -27,4 +15,22 @@ resource "aws_lb" "alb_wp" {
   }
 }
 
-# Binding LB for listening to the target group
+# Listener is binding on LB
+resource "aws_lb_listener" "alb_wp_listener" {
+  load_balancer_arn = aws_lb.alb_wp.arn
+  protocol          = "HTTP"
+  port              = 80
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.alb_tg.arn
+  }
+}
+
+# Create target group which lb will route traffic to
+resource "aws_lb_target_group" "alb_tg" {
+  name             = "alb-tg"
+  port             = 80
+  protocol         = "HTTP"
+  protocol_version = "HTTP1"
+  vpc_id           = var.vpc_id
+}

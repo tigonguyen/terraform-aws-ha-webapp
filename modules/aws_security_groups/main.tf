@@ -121,3 +121,26 @@ resource "aws_security_group_rule" "rule_lb" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+###### Wordpress server section #######
+# Create security group
+resource "aws_security_group" "sg_wp_server" {
+  vpc_id = var.vpc_id
+  name   = "sg_wp_server"
+
+  tags = {
+    Name = "WP Server SG"
+    Env  = var.env
+  }
+}
+
+# Add Inbound rule which allow trafic from sg_lb on port 80
+resource "aws_security_group_rule" "rule_wp" {
+  security_group_id        = aws_security_group.sg_wp_server.id
+  description              = "Ingress rule for sg_fs which allow traffic from sg_fs_client on port 2049" 
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 80
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.sg_lb.id
+}
