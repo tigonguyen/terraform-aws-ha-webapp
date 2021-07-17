@@ -18,7 +18,7 @@ In this workshop, we will explore how to configure AWS VPC, Amazon Aurora RDS, A
 - [x] security group and aws_efs_file_system.
 - [x] aws_lb
 - [x] aws_launch_configuration
-- [ ] aws_autoscaling_group
+- [x] aws_autoscaling_group
 ## Architecture
 These labs are based upon the materials developed as a reference architecture by AWS. The reference architecture is available as a [GitHub repository](https://github.com/aws-samples/aws-refarch-wordpress).
 ![](./aws-refarch-wordpress.jpeg)
