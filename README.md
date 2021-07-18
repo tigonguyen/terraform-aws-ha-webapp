@@ -61,5 +61,5 @@ terragrunt run-all destroy
 ## Author
 - **[Thanh, Dinh Nguyen](https://github.com/tigonguyen)**
 
-## ## License
+## License
 Distributed under the MIT License. See [LICENSE](./LICENSE) for more information.
