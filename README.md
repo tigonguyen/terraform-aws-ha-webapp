@@ -1,4 +1,4 @@
-# Terragrunt basic HA web app
+# terraform-basic-web-app
 ## Description
 In this project, I used Terragrunt to apply DRY strategy in Terraform scripts and resolve the problem in passing outputs between Terraform modules. 
 
