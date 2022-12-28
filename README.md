@@ -1,4 +1,4 @@
-# terraform-highs-scaling-aws-web
+# terraform-aws-ha-webapp
 ## Description
 In this project, I used Terragrunt to apply DRY strategy in Terraform scripts and resolve the problem in passing outputs between Terraform modules. 
 
